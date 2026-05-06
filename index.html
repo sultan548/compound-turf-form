@@ -1199,6 +1199,10 @@ form#turf-form { display: contents; }
         <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted2);margin-top:5px;">
           <span>Smaller</span><span>Larger</span>
         </div>
+        <div style="margin-top:12px;font-size:12px;color:var(--muted2);display:flex;align-items:center;gap:7px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;opacity:0.5"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>
+          Drag the logo or text on the preview to reposition
+        </div>
       </div>
     </div>
 
@@ -1615,12 +1619,34 @@ updateProgress();
 
 const OVERHANG_MM = 1270; // standard production overhang each side
 let previewLogoImage = null; // loaded HTMLImageElement for logo
+let logoPos = { x: 0.5, y: 0.5 }; // normalized position within turf (0–1)
+let textPos = { x: 0.5, y: 0.5 };
+let logoBBox = null; // last-rendered bbox {x,y,w,h} in logical canvas px
+let textBBox = null;
+let dragging = null; // 'logo' | 'text' | null
+let _dragOff = { x: 0, y: 0 };
+let _rc      = { tuX: 0, tY: 0, tuW: 0, turfH: 0 }; // last render context
+let _lastWordingTrimmed = '';
 
 // ── Wire up inputs to re-render ──────────────────
 ['lengthM', 'widthM'].forEach(id =>
   document.getElementById(id).addEventListener('input', renderPreview)
 );
-document.getElementById('infillWording').addEventListener('input', renderPreview);
+document.getElementById('infillWording').addEventListener('input', function() {
+  const txt = this.value.trim();
+  // Auto-split positions when text first added alongside an existing logo
+  if (previewLogoImage && txt && !_lastWordingTrimmed && logoPos.y === 0.5 && textPos.y === 0.5) {
+    logoPos = { x: 0.5, y: 0.35 };
+    textPos = { x: 0.5, y: 0.72 };
+  }
+  // Re-centre when text cleared while logo is present
+  if (!txt && _lastWordingTrimmed && previewLogoImage) {
+    logoPos = { x: 0.5, y: 0.5 };
+    textPos = { x: 0.5, y: 0.5 };
+  }
+  _lastWordingTrimmed = txt;
+  renderPreview();
+});
 document.getElementById('markerInterval').addEventListener('input', renderPreview);
 document.getElementById('logoSizeSlider').addEventListener('input', function() {
   document.getElementById('logoSizeLabel').textContent = this.value + '%';
@@ -1676,10 +1702,18 @@ document.getElementById('logoFile').addEventListener('change', function() {
     reader.onload = e => {
       const img = new Image();
       img.onload = () => {
-        previewLogoImage = stripBackground(img);
-        // If stripBackground returned a new Image (data URL), wait for it to load
-        if (!previewLogoImage.complete) {
-          previewLogoImage.onload = renderPreview;
+        const stripped = stripBackground(img);
+        previewLogoImage = stripped;
+        // Auto-split positions when logo added alongside existing text
+        if (document.getElementById('infillWording').value.trim() &&
+            logoPos.y === 0.5 && textPos.y === 0.5) {
+          logoPos = { x: 0.5, y: 0.35 };
+          textPos = { x: 0.5, y: 0.72 };
+        } else {
+          logoPos = { x: 0.5, y: 0.5 };
+        }
+        if (!stripped.complete) {
+          stripped.onload = renderPreview;
         } else {
           renderPreview();
         }
@@ -1697,7 +1731,13 @@ document.getElementById('logoFile').addEventListener('change', function() {
 const _origClearFile = clearFile;
 clearFile = function(type) {
   _origClearFile(type);
-  if (type === 'logo') { previewLogoImage = null; renderPreview(); }
+  if (type === 'logo') {
+    previewLogoImage = null;
+    logoPos = { x: 0.5, y: 0.5 };
+    textPos = { x: 0.5, y: 0.5 };
+    _lastWordingTrimmed = '';
+    renderPreview();
+  }
 };
 
 // Patch setToggle to also re-render
@@ -1862,48 +1902,80 @@ function renderPreview() {
     }
   }
 
-  // ── 6. Logo image or wording ─────────────────
-  const sizeScale   = (parseFloat(document.getElementById('logoSizeSlider').value) || 100) / 100;
-  const hasMarkers  = metreMarkers && lengthMm >= 1000 && markerStyle === 'numbers';
-  const logoMarginV = hasMarkers ? turfH * 0.28 : turfH * 0.1;
-  const logoAreaH   = turfH - logoMarginV * 2;
-  const logoAreaW   = tuW  * 0.82;
+  // ── 6. Logo + Wording (both visible, independently draggable) ──
+  const sizeScale  = (parseFloat(document.getElementById('logoSizeSlider').value) || 100) / 100;
+  const hasMarkers = metreMarkers && lengthMm >= 1000 && markerStyle === 'numbers';
+  const safeV      = hasMarkers ? turfH * 0.26 : turfH * 0.06;
 
-  if (previewLogoImage) {
-    const ar     = previewLogoImage.naturalWidth / previewLogoImage.naturalHeight;
-    let iW = logoAreaW * sizeScale, iH = iW / ar;
-    if (iH > logoAreaH * sizeScale) { iH = logoAreaH * sizeScale; iW = iH * ar; }
-    ctx.drawImage(previewLogoImage,
-      tuX + (tuW - iW) / 2,
-      tY  + logoMarginV + (logoAreaH - iH) / 2,
-      iW, iH);
-  } else if (wording) {
-    const maxFont = Math.min(logoAreaH * 0.72, tuW * 0.13) * sizeScale;
-    let fontSize  = Math.max(6, maxFont);
-    ctx.font = `900 ${fontSize}px Arial Black, Arial, sans-serif`;
-    while (ctx.measureText(wording).width > logoAreaW * sizeScale && fontSize > 6) {
-      fontSize -= 1;
-      ctx.font = `900 ${fontSize}px Arial Black, Arial, sans-serif`;
-    }
-    ctx.fillStyle    = infillHex;
-    ctx.textAlign    = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(wording, tuX + tuW / 2, tY + turfH / 2);
-  } else {
-    // placeholder
-    const bW = Math.min(logoAreaW * 0.5, 140) * sizeScale;
-    const bH = logoAreaH * 0.7 * sizeScale;
-    const bX = tuX + (tuW - bW) / 2, bY = tY + logoMarginV + (logoAreaH - bH) / 2;
-    ctx.strokeStyle = `${infillHex}44`;
-    ctx.setLineDash([4, 4]);
+  // Cache for drag handler
+  _rc = { tuX, tY, tuW, turfH };
+  logoBBox = null;
+  textBBox = null;
+
+  const hasLogo = !!previewLogoImage;
+  const hasText = !!wording;
+
+  // Draw logo
+  if (hasLogo) {
+    const ar   = previewLogoImage.naturalWidth / previewLogoImage.naturalHeight;
+    const maxW = tuW * 0.72 * sizeScale;
+    const maxH = (turfH - safeV * 2) * (hasText ? 0.48 : 0.82) * sizeScale;
+    let iW = maxW, iH = iW / ar;
+    if (iH > maxH) { iH = maxH; iW = iH * ar; }
+    const cx = tuX + logoPos.x * tuW;
+    const cy = tY  + logoPos.y * turfH;
+    ctx.drawImage(previewLogoImage, cx - iW/2, cy - iH/2, iW, iH);
+    logoBBox = { x: cx - iW/2, y: cy - iH/2, w: iW, h: iH };
+    ctx.save();
+    ctx.strokeStyle = 'rgba(0,0,0,0.2)';
+    ctx.setLineDash([3,4]);
     ctx.lineWidth = 1;
-    ctx.strokeRect(bX, bY, bW, bH);
+    ctx.strokeRect(cx - iW/2 - 3, cy - iH/2 - 3, iW + 6, iH + 6);
+    ctx.setLineDash([]);
+    ctx.restore();
+  } else if (!hasText) {
+    // placeholder box
+    const bW = Math.min(tuW * 0.44, 130) * sizeScale;
+    const bH = (turfH - safeV * 2) * 0.55 * sizeScale;
+    const cx = tuX + logoPos.x * tuW;
+    const cy = tY  + logoPos.y * turfH;
+    ctx.strokeStyle = `${infillHex}44`;
+    ctx.setLineDash([4,4]);
+    ctx.lineWidth = 1;
+    ctx.strokeRect(cx - bW/2, cy - bH/2, bW, bH);
     ctx.setLineDash([]);
     ctx.fillStyle = `${infillHex}44`;
     ctx.font = `600 ${Math.max(8, bH * 0.22)}px Arial, sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('LOGO', bX + bW / 2, bY + bH / 2);
+    ctx.fillText('LOGO', cx, cy);
+  }
+
+  // Draw text wording
+  if (hasText) {
+    const maxW    = tuW * 0.84 * sizeScale;
+    const maxFont = Math.min((turfH - safeV * 2) * (hasLogo ? 0.32 : 0.72), tuW * 0.13) * sizeScale;
+    let fontSize  = Math.max(6, maxFont);
+    ctx.font = `900 ${fontSize}px Arial Black, Arial, sans-serif`;
+    while (ctx.measureText(wording).width > maxW && fontSize > 6) {
+      fontSize -= 1;
+      ctx.font = `900 ${fontSize}px Arial Black, Arial, sans-serif`;
+    }
+    const tw = ctx.measureText(wording).width;
+    const cx = tuX + textPos.x * tuW;
+    const cy = tY  + textPos.y * turfH;
+    ctx.fillStyle    = infillHex;
+    ctx.textAlign    = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(wording, cx, cy);
+    textBBox = { x: cx - tw/2, y: cy - fontSize * 0.65, w: tw, h: fontSize * 1.3 };
+    ctx.save();
+    ctx.strokeStyle = 'rgba(0,0,0,0.2)';
+    ctx.setLineDash([3,4]);
+    ctx.lineWidth = 1;
+    ctx.strokeRect(textBBox.x - 3, textBBox.y - 3, textBBox.w + 6, textBBox.h + 6);
+    ctx.setLineDash([]);
+    ctx.restore();
   }
 
   // ── 7. Dimension lines (red) ─────────────────
@@ -2016,6 +2088,71 @@ function downloadPreview() {
   link.href     = canvas.toDataURL('image/png');
   link.click();
 }
+
+// ── Canvas drag: reposition logo / text ──────────
+(function() {
+  const cv = document.getElementById('turfCanvas');
+
+  function c01(v) { return Math.max(0.02, Math.min(0.98, v)); }
+
+  function lc(e) {
+    const r  = cv.getBoundingClientRect();
+    const lw = cv.width  / (window.devicePixelRatio || 1);
+    const lh = cv.height / (window.devicePixelRatio || 1);
+    const s  = e.touches ? e.touches[0] : e;
+    return { x: (s.clientX - r.left) * (lw / r.width), y: (s.clientY - r.top) * (lh / r.height) };
+  }
+
+  function hit(p, b) {
+    if (!b) return false;
+    const pad = 12;
+    return p.x >= b.x - pad && p.x <= b.x + b.w + pad &&
+           p.y >= b.y - pad && p.y <= b.y + b.h + pad;
+  }
+
+  function dn(e) {
+    const p = lc(e);
+    if (hit(p, logoBBox)) {
+      dragging = 'logo';
+      _dragOff = { x: p.x - (_rc.tuX + logoPos.x * _rc.tuW), y: p.y - (_rc.tY + logoPos.y * _rc.turfH) };
+      e.preventDefault();
+    } else if (hit(p, textBBox)) {
+      dragging = 'text';
+      _dragOff = { x: p.x - (_rc.tuX + textPos.x * _rc.tuW), y: p.y - (_rc.tY + textPos.y * _rc.turfH) };
+      e.preventDefault();
+    }
+  }
+
+  function mv(e) {
+    if (!dragging) {
+      if (document.getElementById('previewCanvasWrap').classList.contains('show')) {
+        const p = lc(e);
+        cv.style.cursor = (hit(p, logoBBox) || hit(p, textBBox)) ? 'grab' : 'default';
+      }
+      return;
+    }
+    e.preventDefault();
+    const p = lc(e);
+    if (dragging === 'logo') {
+      logoPos.x = c01((p.x - _dragOff.x - _rc.tuX) / _rc.tuW);
+      logoPos.y = c01((p.y - _dragOff.y - _rc.tY)  / _rc.turfH);
+    } else {
+      textPos.x = c01((p.x - _dragOff.x - _rc.tuX) / _rc.tuW);
+      textPos.y = c01((p.y - _dragOff.y - _rc.tY)  / _rc.turfH);
+    }
+    cv.style.cursor = 'grabbing';
+    renderPreview();
+  }
+
+  function up() { if (dragging) { cv.style.cursor = 'default'; dragging = null; } }
+
+  cv.addEventListener('mousedown', dn);
+  cv.addEventListener('touchstart', dn, { passive: false });
+  window.addEventListener('mousemove', mv);
+  window.addEventListener('touchmove', mv, { passive: false });
+  window.addEventListener('mouseup', up);
+  window.addEventListener('touchend', up);
+})();
 </script>
 
 </body>
