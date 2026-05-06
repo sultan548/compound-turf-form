@@ -1188,6 +1188,18 @@ form#turf-form { display: contents; }
           Download PNG
         </button>
       </div>
+
+      <div id="logoSizeControl" style="display:none;margin-top:20px;padding-top:20px;border-top:1px solid var(--border);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <label style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">Logo / Text Size</label>
+          <span id="logoSizeLabel" style="font-size:12px;font-weight:600;color:var(--purple-l);">100%</span>
+        </div>
+        <input type="range" id="logoSizeSlider" min="30" max="200" value="100" step="5"
+          style="width:100%;accent-color:var(--purple);cursor:pointer;height:4px;">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted2);margin-top:5px;">
+          <span>Smaller</span><span>Larger</span>
+        </div>
+      </div>
     </div>
 
     <!-- ── SECTION 5: ADDITIONAL NOTES ────────── -->
@@ -1610,6 +1622,10 @@ let previewLogoImage = null; // loaded HTMLImageElement for logo
 );
 document.getElementById('infillWording').addEventListener('input', renderPreview);
 document.getElementById('markerInterval').addEventListener('input', renderPreview);
+document.getElementById('logoSizeSlider').addEventListener('input', function() {
+  document.getElementById('logoSizeLabel').textContent = this.value + '%';
+  renderPreview();
+});
 
 // ── Background removal ────────────────────────────
 // Samples all 4 corners, finds the dominant bg colour, makes near-matching pixels transparent.
@@ -1732,6 +1748,7 @@ function renderPreview() {
   placeholder.style.display = 'none';
   wrap.classList.add('show');
   actions.style.display = 'flex';
+  document.getElementById('logoSizeControl').style.display = 'block';
 
   const infillHex    = document.getElementById('infillColourValue').value
                          ? document.getElementById('infillColourValue').value.match(/#[0-9a-fA-F]{6}/)?.[0] || '#ffffff'
@@ -1846,25 +1863,25 @@ function renderPreview() {
   }
 
   // ── 6. Logo image or wording ─────────────────
-  // Vertical bounds tighten when metre markers are present
+  const sizeScale   = (parseFloat(document.getElementById('logoSizeSlider').value) || 100) / 100;
   const hasMarkers  = metreMarkers && lengthMm >= 1000 && markerStyle === 'numbers';
   const logoMarginV = hasMarkers ? turfH * 0.28 : turfH * 0.1;
   const logoAreaH   = turfH - logoMarginV * 2;
   const logoAreaW   = tuW  * 0.82;
 
   if (previewLogoImage) {
-    const ar  = previewLogoImage.naturalWidth / previewLogoImage.naturalHeight;
-    let iW = logoAreaW, iH = logoAreaW / ar;
-    if (iH > logoAreaH) { iH = logoAreaH; iW = logoAreaH * ar; }
+    const ar     = previewLogoImage.naturalWidth / previewLogoImage.naturalHeight;
+    let iW = logoAreaW * sizeScale, iH = iW / ar;
+    if (iH > logoAreaH * sizeScale) { iH = logoAreaH * sizeScale; iW = iH * ar; }
     ctx.drawImage(previewLogoImage,
       tuX + (tuW - iW) / 2,
       tY  + logoMarginV + (logoAreaH - iH) / 2,
       iW, iH);
   } else if (wording) {
-    const maxFont = Math.min(logoAreaH * 0.72, tuW * 0.13);
-    let fontSize  = maxFont;
+    const maxFont = Math.min(logoAreaH * 0.72, tuW * 0.13) * sizeScale;
+    let fontSize  = Math.max(6, maxFont);
     ctx.font = `900 ${fontSize}px Arial Black, Arial, sans-serif`;
-    while (ctx.measureText(wording).width > logoAreaW && fontSize > 8) {
+    while (ctx.measureText(wording).width > logoAreaW * sizeScale && fontSize > 6) {
       fontSize -= 1;
       ctx.font = `900 ${fontSize}px Arial Black, Arial, sans-serif`;
     }
@@ -1874,7 +1891,8 @@ function renderPreview() {
     ctx.fillText(wording, tuX + tuW / 2, tY + turfH / 2);
   } else {
     // placeholder
-    const bW = Math.min(logoAreaW * 0.5, 140), bH = logoAreaH * 0.7;
+    const bW = Math.min(logoAreaW * 0.5, 140) * sizeScale;
+    const bH = logoAreaH * 0.7 * sizeScale;
     const bX = tuX + (tuW - bW) / 2, bY = tY + logoMarginV + (logoAreaH - bH) / 2;
     ctx.strokeStyle = `${infillHex}44`;
     ctx.setLineDash([4, 4]);
