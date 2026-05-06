@@ -1,0 +1,2004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Custom Turf Design Request — Compound Fitness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo+Narrow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:  #0a0a0a;
+  --dark:   #111111;
+  --card:   #181818;
+  --card2:  #1e1e1e;
+  --border: rgba(255,255,255,0.09);
+  --border2:rgba(255,255,255,0.14);
+  --purple: #804B93;
+  --purple-l:#9B60AE;
+  --purple-dim:rgba(128,75,147,0.15);
+  --purple-br:rgba(128,75,147,0.35);
+  --off-white:#f2f0eb;
+  --muted:  rgba(242,240,235,0.5);
+  --muted2: rgba(242,240,235,0.3);
+  --green:  #4caf7d;
+  --red:    #e05c5c;
+  --r:      10px;
+  --r2:     14px;
+  --shadow: 0 8px 40px rgba(0,0,0,0.7);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Archivo Narrow', sans-serif;
+  background: var(--black);
+  color: var(--off-white);
+  min-height: 100vh;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--dark); }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+/* ── HEADER ─────────────────────────────────── */
+.site-header {
+  background: var(--dark);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.06em;
+  color: var(--off-white);
+  line-height: 1;
+}
+
+.brand-logo span { color: var(--purple-l); }
+
+.brand-divider {
+  width: 1px;
+  height: 22px;
+  background: var(--border2);
+}
+
+.brand-sub {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.header-badge {
+  background: var(--purple-dim);
+  border: 1px solid var(--purple-br);
+  color: var(--purple-l);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── HERO ───────────────────────────────────── */
+.hero {
+  background: linear-gradient(135deg, #0a0a0a 0%, #130a1a 50%, #0a0a0a 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 64px 24px 56px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(128,75,147,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero__eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--purple-l);
+  margin-bottom: 16px;
+}
+
+.hero__heading {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(42px, 6vw, 72px);
+  line-height: 0.95;
+  letter-spacing: 0.03em;
+  color: var(--off-white);
+  margin-bottom: 20px;
+}
+
+.hero__heading span { color: var(--purple-l); }
+
+.hero__copy {
+  font-size: 17px;
+  color: var(--muted);
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ── PROGRESS STEPS ─────────────────────────── */
+.progress-wrap {
+  background: var(--dark);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 24px;
+  position: sticky;
+  top: 68px;
+  z-index: 90;
+}
+
+.progress-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  position: relative;
+}
+
+.step:not(:last-child)::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border2);
+  margin: 0 8px;
+}
+
+.step.complete:not(:last-child)::after { background: var(--purple); }
+
+.step-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--border2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: all 0.3s;
+  background: var(--card);
+}
+
+.step.active .step-dot {
+  border-color: var(--purple);
+  background: var(--purple);
+  color: #fff;
+  box-shadow: 0 0 0 4px var(--purple-dim);
+}
+
+.step.complete .step-dot {
+  border-color: var(--purple);
+  background: var(--purple);
+  color: #fff;
+}
+
+.step-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted2);
+  white-space: nowrap;
+}
+
+.step.active .step-label { color: var(--purple-l); }
+.step.complete .step-label { color: var(--muted); }
+
+@media (max-width: 640px) {
+  .step-label { display: none; }
+  .step:not(:last-child)::after { margin: 0 4px; }
+}
+
+/* ── MAIN LAYOUT ────────────────────────────── */
+.main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+/* ── FORM SECTIONS ──────────────────────────── */
+.form-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  padding: 32px;
+  margin-bottom: 24px;
+  transition: border-color 0.3s;
+}
+
+.form-section:focus-within {
+  border-color: var(--border2);
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--purple-dim);
+  border: 1px solid var(--purple-br);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  color: var(--purple-l);
+  flex-shrink: 0;
+}
+
+.section-title-wrap {}
+
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  color: var(--off-white);
+  line-height: 1.1;
+}
+
+.section-desc {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+/* ── FORM FIELDS ────────────────────────────── */
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.field-grid.cols-1 { grid-template-columns: 1fr; }
+.field-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+@media (max-width: 580px) {
+  .field-grid { grid-template-columns: 1fr; }
+  .field-grid.cols-3 { grid-template-columns: 1fr 1fr; }
+}
+
+.fgroup { display: flex; flex-direction: column; gap: 7px; }
+.fgroup.full { grid-column: 1 / -1; }
+
+.fgroup label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.fgroup label .req { color: var(--purple-l); margin-left: 3px; }
+
+.fgroup input,
+.fgroup select,
+.fgroup textarea {
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  padding: 12px 15px;
+  font-size: 15px;
+  font-family: 'Archivo Narrow', sans-serif;
+  color: var(--off-white);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+.fgroup input:focus,
+.fgroup select:focus,
+.fgroup textarea:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px var(--purple-dim);
+}
+
+.fgroup input::placeholder,
+.fgroup textarea::placeholder { color: var(--muted2); }
+
+.fgroup select option { background: #1e1e1e; }
+.fgroup textarea { resize: vertical; min-height: 100px; }
+
+.field-hint {
+  font-size: 12px;
+  color: var(--muted2);
+  margin-top: -3px;
+}
+
+/* ── DIMENSION DISPLAY ──────────────────────── */
+.area-display {
+  background: var(--purple-dim);
+  border: 1px solid var(--purple-br);
+  border-radius: var(--r);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.area-display-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--purple-l);
+}
+
+.area-display-value {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  color: var(--off-white);
+  letter-spacing: 0.04em;
+}
+
+/* ── YES/NO TOGGLES ─────────────────────────── */
+.toggle-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.toggle-btn {
+  flex: 1;
+  padding: 11px 16px;
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  background: var(--card2);
+  color: var(--muted);
+  font-family: 'Archivo Narrow', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.18s;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.toggle-btn:hover { border-color: var(--border2); color: var(--off-white); }
+
+.toggle-btn.active-yes {
+  background: rgba(76,175,125,0.12);
+  border-color: rgba(76,175,125,0.35);
+  color: var(--green);
+}
+
+.toggle-btn.active-no {
+  background: rgba(224,92,92,0.1);
+  border-color: rgba(224,92,92,0.3);
+  color: var(--red);
+}
+
+/* ── COLOUR SWATCH PICKER ───────────────────── */
+.swatch-picker-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.swatch-picker-label .req { color: var(--purple-l); margin-left: 3px; }
+
+.selected-colour-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  min-height: 46px;
+}
+
+.selected-colour-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.1);
+  flex-shrink: 0;
+  background: var(--border2);
+  transition: background 0.2s;
+}
+
+.selected-colour-text {
+  font-size: 14px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.selected-colour-text.chosen {
+  color: var(--off-white);
+  font-style: normal;
+  font-weight: 600;
+}
+
+.swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 580px) {
+  .swatch-grid { grid-template-columns: repeat(7, 1fr); }
+}
+
+@media (max-width: 400px) {
+  .swatch-grid { grid-template-columns: repeat(6, 1fr); }
+}
+
+.swatch-item {
+  position: relative;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  border: 2px solid transparent;
+  transition: all 0.18s;
+  outline: none;
+}
+
+.swatch-item:hover {
+  transform: scale(1.1);
+  z-index: 2;
+  border-color: rgba(255,255,255,0.3);
+}
+
+.swatch-item.selected {
+  border-color: var(--purple-l);
+  box-shadow: 0 0 0 3px var(--purple-dim);
+  transform: scale(1.08);
+  z-index: 3;
+}
+
+.swatch-item::after {
+  content: attr(data-num);
+  position: absolute;
+  bottom: 2px;
+  right: 3px;
+  font-size: 8px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.7);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  line-height: 1;
+  font-family: 'Archivo Narrow', sans-serif;
+}
+
+.swatch-item.selected::before {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+  font-weight: 700;
+}
+
+.swatch-note {
+  font-size: 11px;
+  color: var(--muted2);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+/* ── FILE UPLOAD ────────────────────────────── */
+.file-drop {
+  border: 2px dashed var(--border2);
+  border-radius: var(--r);
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  background: var(--card2);
+}
+
+.file-drop:hover,
+.file-drop.drag-over {
+  border-color: var(--purple);
+  background: var(--purple-dim);
+}
+
+.file-drop input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.file-drop-icon {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.file-drop-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--off-white);
+  margin-bottom: 4px;
+}
+
+.file-drop-sub {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.file-selected {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  background: rgba(76,175,125,0.08);
+  border: 1px solid rgba(76,175,125,0.25);
+  border-radius: var(--r);
+  padding: 12px 16px;
+  margin-top: 10px;
+}
+
+.file-selected.show { display: flex; }
+
+.file-selected-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-clear {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: color 0.2s;
+  font-family: inherit;
+}
+
+.file-clear:hover { color: var(--red); }
+
+/* ── DESIGN FILE CONDITIONAL ────────────────── */
+.conditional-upload {
+  display: none;
+  margin-top: 16px;
+}
+
+.conditional-upload.show { display: block; }
+
+/* ── SUBMIT SECTION ─────────────────────────── */
+.submit-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  padding: 32px;
+  text-align: center;
+}
+
+.submit-note {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.btn-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--purple);
+  color: #fff;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 0.1em;
+  padding: 18px 48px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  max-width: 420px;
+}
+
+.btn-submit:hover {
+  background: var(--purple-l);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(128,75,147,0.4);
+}
+
+.btn-submit:active { transform: translateY(0); }
+
+.btn-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.submit-trust {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted2);
+}
+
+.trust-item svg { color: var(--purple); flex-shrink: 0; }
+
+/* ── SUCCESS STATE ──────────────────────────── */
+.success-screen {
+  display: none;
+  text-align: center;
+  padding: 80px 24px;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.success-screen.show { display: block; }
+
+.success-icon {
+  width: 72px;
+  height: 72px;
+  background: rgba(76,175,125,0.15);
+  border: 2px solid rgba(76,175,125,0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 28px;
+  font-size: 32px;
+}
+
+.success-heading {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 42px;
+  letter-spacing: 0.04em;
+  color: var(--off-white);
+  margin-bottom: 16px;
+}
+
+.success-copy {
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ── VALIDATION ─────────────────────────────── */
+.fgroup input.invalid,
+.fgroup select.invalid,
+.fgroup textarea.invalid {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(224,92,92,0.15);
+}
+
+.field-error {
+  font-size: 12px;
+  color: var(--red);
+  margin-top: -3px;
+  display: none;
+}
+
+.field-error.show { display: block; }
+
+.swatch-error {
+  font-size: 12px;
+  color: var(--red);
+  margin-top: 8px;
+  display: none;
+}
+
+.swatch-error.show { display: block; }
+
+/* ── FOOTER ─────────────────────────────────── */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 24px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted2);
+  background: var(--dark);
+}
+
+.site-footer a { color: var(--muted); text-decoration: none; }
+.site-footer a:hover { color: var(--purple-l); }
+
+/* ── FORM (hidden) ──────────────────────────── */
+form#turf-form { display: contents; }
+
+/* ── DIVIDER ────────────────────────────────── */
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 24px 0;
+}
+
+/* ── PREVIEW SECTION ────────────────────────── */
+.preview-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.preview-placeholder {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted2);
+  border: 2px dashed var(--border);
+  border-radius: var(--r);
+}
+
+.preview-placeholder svg { margin-bottom: 12px; opacity: 0.4; }
+.preview-placeholder p { font-size: 14px; line-height: 1.6; }
+.preview-placeholder strong { color: var(--muted); display: block; font-size: 15px; margin-bottom: 6px; }
+
+.preview-canvas-wrap {
+  display: none;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 16px;
+}
+
+.preview-canvas-wrap.show { display: block; }
+
+#turfCanvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+
+.preview-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.preview-disclaimer {
+  font-size: 12px;
+  color: var(--muted2);
+  line-height: 1.5;
+  flex: 1;
+  min-width: 200px;
+}
+
+.btn-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--purple-dim);
+  border: 1px solid var(--purple-br);
+  color: var(--purple-l);
+  font-family: 'Archivo Narrow', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border-radius: var(--r);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-download:hover {
+  background: rgba(128,75,147,0.25);
+  border-color: var(--purple-l);
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-brand">
+    <div class="brand-logo">COMPOUND<span>.</span></div>
+    <div class="brand-divider"></div>
+    <div class="brand-sub">Custom Turf</div>
+  </div>
+  <div class="header-badge">Design Request</div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__eyebrow">Laser-Etched · 29 Colours · Cut to Size</div>
+  <h1 class="hero__heading">Your Custom Turf<br><span>Starts Here</span></h1>
+  <p class="hero__copy">Fill out the details below and we'll prepare your design file. We'll come back to you to confirm before anything goes to production.</p>
+</section>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-steps" id="progressSteps">
+    <div class="step active" data-step="1">
+      <div class="step-dot">1</div>
+      <span class="step-label">Details</span>
+    </div>
+    <div class="step" data-step="2">
+      <div class="step-dot">2</div>
+      <span class="step-label">Dimensions</span>
+    </div>
+    <div class="step" data-step="3">
+      <div class="step-dot">3</div>
+      <span class="step-label">Colours</span>
+    </div>
+    <div class="step" data-step="4">
+      <div class="step-dot">4</div>
+      <span class="step-label">Branding</span>
+    </div>
+    <div class="step" data-step="5">
+      <div class="step-dot">5</div>
+      <span class="step-label">Submit</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN FORM -->
+<main class="main">
+
+  <!-- SUCCESS SCREEN (hidden until submitted) -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">✓</div>
+    <h2 class="success-heading">Request Received</h2>
+    <p class="success-copy">
+      Thanks — we've received your custom turf request and our team will review your details.
+      We'll be in touch within 1–2 business days to confirm your design before anything goes to production.
+    </p>
+  </div>
+
+  <!-- THE FORM -->
+  <form id="turf-form" novalidate>
+
+    <!-- Hidden fields for FormSubmit -->
+    <input type="hidden" name="_subject" value="New Custom Turf Design Request">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_next" value="">
+
+    <!-- Hidden colour value fields (set by JS) -->
+    <input type="hidden" name="Turf Colour" id="turfColourValue">
+    <input type="hidden" name="Infill Colour" id="infillColourValue">
+
+    <!-- ── SECTION 1: CUSTOMER DETAILS ─────────── -->
+    <div class="form-section" id="section1">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div class="section-title-wrap">
+          <div class="section-title">Your Details</div>
+          <div class="section-desc">Who should we send the design confirmation to?</div>
+        </div>
+      </div>
+
+      <div class="field-grid">
+        <div class="fgroup full">
+          <label for="businessName">Business / Facility Name <span class="req">*</span></label>
+          <input type="text" id="businessName" name="Business Name" placeholder="e.g. Iron Edge Fitness" required>
+          <div class="field-error" id="err-businessName">Please enter your business name</div>
+        </div>
+
+        <div class="fgroup">
+          <label for="contactName">Contact Name <span class="req">*</span></label>
+          <input type="text" id="contactName" name="Contact Name" placeholder="Full name" required>
+          <div class="field-error" id="err-contactName">Please enter your name</div>
+        </div>
+
+        <div class="fgroup">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="Phone Number" placeholder="04xx xxx xxx">
+        </div>
+
+        <div class="fgroup">
+          <label for="email">Email Address <span class="req">*</span></label>
+          <input type="email" id="email" name="Email Address" placeholder="you@yourfacility.com" required>
+          <div class="field-error" id="err-email">Please enter a valid email address</div>
+        </div>
+
+        <div class="fgroup">
+          <label for="state">State / Territory</label>
+          <select id="state" name="State">
+            <option value="">— Select state —</option>
+            <option>QLD</option>
+            <option>NSW</option>
+            <option>VIC</option>
+            <option>SA</option>
+            <option>WA</option>
+            <option>TAS</option>
+            <option>ACT</option>
+            <option>NT</option>
+            <option>NZ</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECTION 2: TURF DIMENSIONS ──────────── -->
+    <div class="form-section" id="section2">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <div class="section-title-wrap">
+          <div class="section-title">Turf Dimensions</div>
+          <div class="section-desc">The dimensions your turf will be cut to. Measure to the nearest 0.1m.</div>
+        </div>
+      </div>
+
+      <div class="field-grid">
+        <div class="fgroup">
+          <label for="lengthM">Length (metres) <span class="req">*</span></label>
+          <input type="number" id="lengthM" name="Length (m)" placeholder="0.0" min="0.5" max="100" step="0.1" required>
+          <div class="field-error" id="err-lengthM">Please enter the length</div>
+        </div>
+
+        <div class="fgroup">
+          <label for="widthM">Width (metres) <span class="req">*</span></label>
+          <input type="number" id="widthM" name="Width (m)" placeholder="0.0" min="0.5" max="20" step="0.1" required>
+          <div class="field-error" id="err-widthM">Please enter the width</div>
+        </div>
+      </div>
+
+      <div class="area-display" id="areaDisplay" style="display:none;margin-top:16px;">
+        <span class="area-display-label">Total Area</span>
+        <span class="area-display-value" id="areaValue">— m²</span>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="fgroup">
+        <label>Metre Markers Required? <span class="req">*</span></label>
+        <div class="toggle-group">
+          <button type="button" class="toggle-btn" id="meterYes" onclick="setToggle('meter','yes')">Yes</button>
+          <button type="button" class="toggle-btn" id="meterNo" onclick="setToggle('meter','no')">No</button>
+        </div>
+        <div class="field-hint">Distance markers etched along sled lanes or sprint tracks</div>
+        <input type="hidden" id="meterMarkersValue" name="Metre Markers">
+        <div class="field-error" id="err-meter">Please select yes or no</div>
+      </div>
+
+      <!-- Metre marker options — shown when Yes is selected -->
+      <div id="meterOptions" style="display:none;margin-top:20px;padding-top:20px;border-top:1px solid var(--border);">
+        <div class="field-grid">
+          <div class="fgroup">
+            <label for="markerInterval">Marker Interval (metres)</label>
+            <input type="number" id="markerInterval" name="Marker Interval (m)" placeholder="1" min="0.5" max="50" step="0.5" value="1">
+            <div class="field-hint">e.g. 1 = every metre, 2 = every 2 metres</div>
+          </div>
+          <div class="fgroup">
+            <label>Marker Style</label>
+            <div class="toggle-group">
+              <button type="button" class="toggle-btn active-yes" id="markerNumYes" onclick="setMarkerStyle('numbers')">Numbers + Markers</button>
+              <button type="button" class="toggle-btn" id="markerNumNo" onclick="setMarkerStyle('ticks')">Tick Marks Only</button>
+            </div>
+            <input type="hidden" id="markerStyleValue" name="Marker Style" value="Numbers + Markers">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECTION 3: COLOURS ───────────────────── -->
+    <div class="form-section" id="section3">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <div class="section-title-wrap">
+          <div class="section-title">Choose Your Colours</div>
+          <div class="section-desc">Select from 29 standard colours. Multiple colours can be combined for zone layouts.</div>
+        </div>
+      </div>
+
+      <!-- TURF BASE COLOUR -->
+      <div style="margin-bottom:28px;">
+        <div class="swatch-picker-label">
+          Base Turf Colour <span class="req">*</span>
+        </div>
+        <div class="selected-colour-display" id="turfColourDisplay">
+          <div class="selected-colour-swatch" id="turfColourSwatch"></div>
+          <span class="selected-colour-text" id="turfColourText">No colour selected — click a swatch below</span>
+        </div>
+        <div class="swatch-grid" id="turfSwatchGrid">
+          <!-- Generated by JS -->
+        </div>
+        <div class="swatch-error" id="err-turfColour">Please select a base turf colour</div>
+        <p class="swatch-note">Colours shown are representative samples. Final colour may vary slightly due to turf fibre texture. Physical swatches available on request.</p>
+      </div>
+
+      <!-- INFILL COLOUR -->
+      <div>
+        <div class="swatch-picker-label">
+          Infill / Logo Colour
+          <span style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;color:var(--muted2);">optional</span>
+        </div>
+        <div class="selected-colour-display" id="infillColourDisplay">
+          <div class="selected-colour-swatch" id="infillColourSwatch"></div>
+          <span class="selected-colour-text" id="infillColourText">No colour selected — click a swatch below</span>
+        </div>
+        <div class="swatch-grid" id="infillSwatchGrid">
+          <!-- Generated by JS -->
+        </div>
+        <p class="swatch-note">The colour used to etch your logo and infill text into the turf.</p>
+      </div>
+    </div>
+
+    <!-- ── SECTION 4: BRANDING ─────────────────── -->
+    <div class="form-section" id="section4">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <div class="section-title-wrap">
+          <div class="section-title">Branding & Customisation</div>
+          <div class="section-desc">Upload your logo and any custom design files. Vector files (AI, EPS, SVG) preferred.</div>
+        </div>
+      </div>
+
+      <!-- LOGO UPLOAD -->
+      <div class="fgroup full" style="margin-bottom:20px;">
+        <label>Logo File <span class="req">*</span></label>
+        <div class="file-drop" id="logoDrop">
+          <input type="file" id="logoFile" name="Logo File" accept=".ai,.eps,.svg,.pdf,.png,.jpg,.jpeg" required>
+          <div class="file-drop-icon">📁</div>
+          <div class="file-drop-title">Drop your logo here, or click to browse</div>
+          <div class="file-drop-sub">AI, EPS, SVG, PDF — or PNG/JPG at 300dpi+</div>
+        </div>
+        <div class="file-selected" id="logoSelected">
+          <span>✓</span>
+          <span class="file-selected-name" id="logoFileName"></span>
+          <button type="button" class="file-clear" onclick="clearFile('logo')">✕</button>
+        </div>
+        <div class="field-error" id="err-logoFile">Please upload your logo file</div>
+      </div>
+
+      <hr class="section-divider">
+
+      <!-- INFILL WORDING -->
+      <div class="field-grid" style="margin-bottom:20px;">
+        <div class="fgroup full">
+          <label for="infillWording">Infill Wording / Text to Etch</label>
+          <input type="text" id="infillWording" name="Infill Wording" placeholder="e.g. IRON EDGE FITNESS · EST. 2019">
+          <div class="field-hint">Text to be etched into the infill areas of your turf (leave blank if logo only)</div>
+        </div>
+      </div>
+
+      <hr class="section-divider">
+
+      <!-- CUSTOM DESIGN FILE -->
+      <div class="fgroup full" style="margin-bottom:0;">
+        <label>Do you have a custom design / layout file?</label>
+        <div class="toggle-group" style="margin-bottom:0;">
+          <button type="button" class="toggle-btn" id="designYes" onclick="setToggle('design','yes')">Yes — I'll upload it</button>
+          <button type="button" class="toggle-btn" id="designNo" onclick="setToggle('design','no')">No — use my logo only</button>
+        </div>
+        <input type="hidden" id="designFileValue" name="Custom Design Attached">
+        <div class="conditional-upload" id="designUploadArea">
+          <div class="file-drop" id="designDrop" style="margin-top:12px;">
+            <input type="file" id="designFile" name="Custom Design File" accept=".ai,.eps,.svg,.pdf,.png,.jpg,.jpeg,.psd">
+            <div class="file-drop-icon">🎨</div>
+            <div class="file-drop-title">Drop your design file here, or click to browse</div>
+            <div class="file-drop-sub">AI, EPS, SVG, PSD, PDF accepted</div>
+          </div>
+          <div class="file-selected" id="designSelected">
+            <span>✓</span>
+            <span class="file-selected-name" id="designFileName"></span>
+            <button type="button" class="file-clear" onclick="clearFile('design')">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── DESIGN PREVIEW ──────────────────────── -->
+    <div class="preview-section">
+      <div class="section-header">
+        <div class="section-num" style="background:rgba(76,175,125,0.12);border-color:rgba(76,175,125,0.3);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4caf7d" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <div class="section-title-wrap">
+          <div class="section-title">Design Preview</div>
+          <div class="section-desc">Live layout — updates as you fill in dimensions, colours, and branding above.</div>
+        </div>
+      </div>
+
+      <div class="preview-placeholder" id="previewPlaceholder">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <strong>No preview yet</strong>
+        <p>Fill in your turf dimensions and select a base colour above — your factory layout will appear here automatically.</p>
+      </div>
+
+      <div class="preview-canvas-wrap" id="previewCanvasWrap">
+        <canvas id="turfCanvas"></canvas>
+      </div>
+
+      <div class="preview-actions" id="previewActions" style="display:none;">
+        <p class="preview-disclaimer">
+          Indicative layout only — colours, proportions and artwork are representative. Final production file confirmed by our team before manufacture.
+        </p>
+        <button type="button" class="btn-download" onclick="downloadPreview()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download PNG
+        </button>
+      </div>
+    </div>
+
+    <!-- ── SECTION 5: ADDITIONAL NOTES ────────── -->
+    <div class="form-section" id="section5">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <div class="section-title-wrap">
+          <div class="section-title">Additional Notes</div>
+          <div class="section-desc">Any other details, special requirements, or questions for our team.</div>
+        </div>
+      </div>
+
+      <div class="fgroup full">
+        <label for="notes">Notes</label>
+        <textarea id="notes" name="Additional Notes" placeholder="e.g. HYROX lane markings, colour blocking zones, specific positioning of the logo, delivery access notes..." style="min-height:120px;"></textarea>
+      </div>
+    </div>
+
+    <!-- ── SUBMIT ───────────────────────────────── -->
+    <div class="submit-section">
+      <p class="submit-note">
+        Once submitted, our team will review your request and send you a design proof for approval — nothing goes to production without your sign-off.
+      </p>
+      <button type="submit" class="btn-submit" id="submitBtn">
+        Submit Turf Design Request
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+      <div class="submit-trust">
+        <div class="trust-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Design approval before production
+        </div>
+        <div class="trust-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Response within 1–2 business days
+        </div>
+        <div class="trust-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Australian-owned business
+        </div>
+      </div>
+    </div>
+
+  </form>
+  <!-- END FORM -->
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p>© 2025 Compound Fitness Equipment · <a href="https://compoundfitness.com.au">compoundfitness.com.au</a> · <a href="tel:0414275045">0414 275 045</a></p>
+</footer>
+
+<script>
+// ── COLOUR DATA ──────────────────────────────────
+const COLOURS = [
+  { num: 1,  hex: '#c0202a', name: 'Deep Red' },
+  { num: 2,  hex: '#9b3d1e', name: 'Rust' },
+  { num: 3,  hex: '#7d1e2a', name: 'Burgundy' },
+  { num: 4,  hex: '#e05060', name: 'Bright Red' },
+  { num: 5,  hex: '#e88fa0', name: 'Rose Pink' },
+  { num: 6,  hex: '#e84e10', name: 'Burnt Orange' },
+  { num: 7,  hex: '#d4a000', name: 'Gold' },
+  { num: 8,  hex: '#c07830', name: 'Amber' },
+  { num: 9,  hex: '#e8c020', name: 'Yellow' },
+  { num: 10, hex: '#5e2060', name: 'Deep Purple' },
+  { num: 11, hex: '#808080', name: 'Mid Grey' },
+  { num: 12, hex: '#3a3a3a', name: 'Charcoal' },
+  { num: 13, hex: '#a8a8a8', name: 'Light Grey' },
+  { num: 14, hex: '#1a5c40', name: 'Deep Green' },
+  { num: 15, hex: '#3a6020', name: 'Olive Green' },
+  { num: 16, hex: '#1e4018', name: 'Forest Green' },
+  { num: 17, hex: '#60a020', name: 'Lime Green' },
+  { num: 18, hex: '#a0b840', name: 'Yellow Green' },
+  { num: 19, hex: '#208060', name: 'Teal' },
+  { num: 20, hex: '#1060c0', name: 'Royal Blue' },
+  { num: 21, hex: '#20b8c0', name: 'Cyan' },
+  { num: 22, hex: '#60c0a0', name: 'Mint' },
+  { num: 23, hex: '#7060a0', name: 'Lavender' },
+  { num: 24, hex: '#6a3820', name: 'Brown' },
+  { num: 25, hex: '#b8b8c0', name: 'Silver' },
+  { num: 26, hex: '#405820', name: 'Dark Olive' },
+  { num: 27, hex: '#508030', name: 'Sage Green' },
+  { num: 28, hex: '#141414', name: 'Black' },
+  { num: 29, hex: '#efefef', name: 'White' },
+];
+
+// ── BUILD SWATCH GRIDS ───────────────────────────
+function buildSwatchGrid(containerId, pickerType) {
+  const grid = document.getElementById(containerId);
+  COLOURS.forEach(c => {
+    const el = document.createElement('div');
+    el.className = 'swatch-item';
+    el.setAttribute('data-num', c.num);
+    el.setAttribute('data-hex', c.hex);
+    el.setAttribute('data-name', c.name);
+    el.setAttribute('title', `${c.num}. ${c.name}`);
+    el.setAttribute('tabindex', '0');
+    el.style.background = c.hex;
+    el.addEventListener('click', () => selectColour(pickerType, c));
+    el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') selectColour(pickerType, c); });
+    grid.appendChild(el);
+  });
+}
+
+buildSwatchGrid('turfSwatchGrid', 'turf');
+buildSwatchGrid('infillSwatchGrid', 'infill');
+
+// ── SELECT COLOUR ────────────────────────────────
+function selectColour(type, colour) {
+  const gridId = type === 'turf' ? 'turfSwatchGrid' : 'infillSwatchGrid';
+  const swatchId = type === 'turf' ? 'turfColourSwatch' : 'infillColourSwatch';
+  const textId = type === 'turf' ? 'turfColourText' : 'infillColourText';
+  const hiddenId = type === 'turf' ? 'turfColourValue' : 'infillColourValue';
+
+  // Update swatch selection
+  document.querySelectorAll(`#${gridId} .swatch-item`).forEach(el => el.classList.remove('selected'));
+  document.querySelector(`#${gridId} [data-num="${colour.num}"]`).classList.add('selected');
+
+  // Update display
+  document.getElementById(swatchId).style.background = colour.hex;
+  const textEl = document.getElementById(textId);
+  textEl.textContent = `Colour ${colour.num} — ${colour.name}`;
+  textEl.classList.add('chosen');
+
+  // Set hidden value
+  document.getElementById(hiddenId).value = `Colour ${colour.num}: ${colour.name} (${colour.hex})`;
+
+  // Clear error
+  if (type === 'turf') {
+    document.getElementById('err-turfColour').classList.remove('show');
+  }
+
+  // Update progress
+  updateProgress();
+}
+
+// ── AREA CALCULATOR ──────────────────────────────
+function calcArea() {
+  const l = parseFloat(document.getElementById('lengthM').value) || 0;
+  const w = parseFloat(document.getElementById('widthM').value) || 0;
+  const display = document.getElementById('areaDisplay');
+  if (l > 0 && w > 0) {
+    document.getElementById('areaValue').textContent = `${(l * w).toFixed(2)} m²  (${l}m × ${w}m)`;
+    display.style.display = 'flex';
+  } else {
+    display.style.display = 'none';
+  }
+  updateProgress();
+}
+
+document.getElementById('lengthM').addEventListener('input', calcArea);
+document.getElementById('widthM').addEventListener('input', calcArea);
+
+// ── YES/NO TOGGLES ───────────────────────────────
+const toggleState = { meter: null, design: null };
+let markerStyle = 'numbers'; // 'numbers' | 'ticks'
+
+function setToggle(type, value) {
+  toggleState[type] = value;
+
+  if (type === 'meter') {
+    document.getElementById('meterYes').className = 'toggle-btn' + (value === 'yes' ? ' active-yes' : '');
+    document.getElementById('meterNo').className = 'toggle-btn' + (value === 'no' ? ' active-no' : '');
+    document.getElementById('meterMarkersValue').value = value === 'yes' ? 'Yes' : 'No';
+    document.getElementById('err-meter').classList.remove('show');
+    document.getElementById('meterOptions').style.display = value === 'yes' ? 'block' : 'none';
+  }
+
+  if (type === 'design') {
+    document.getElementById('designYes').className = 'toggle-btn' + (value === 'yes' ? ' active-yes' : '');
+    document.getElementById('designNo').className = 'toggle-btn' + (value === 'no' ? ' active-no' : '');
+    document.getElementById('designFileValue').value = value === 'yes' ? 'Yes' : 'No';
+    const uploadArea = document.getElementById('designUploadArea');
+    uploadArea.classList.toggle('show', value === 'yes');
+    if (value === 'no') clearFile('design');
+  }
+
+  updateProgress();
+}
+
+function setMarkerStyle(style) {
+  markerStyle = style;
+  document.getElementById('markerNumYes').className = 'toggle-btn' + (style === 'numbers' ? ' active-yes' : '');
+  document.getElementById('markerNumNo').className  = 'toggle-btn' + (style === 'ticks'   ? ' active-yes' : '');
+  document.getElementById('markerStyleValue').value = style === 'numbers' ? 'Numbers + Markers' : 'Tick Marks Only';
+  renderPreview();
+}
+
+// ── FILE UPLOADS ─────────────────────────────────
+function initFileInput(inputId, dropId, selectedId, fileNameId) {
+  const input = document.getElementById(inputId);
+  const drop = document.getElementById(dropId);
+
+  input.addEventListener('change', () => {
+    if (input.files.length > 0) {
+      showFileSelected(selectedId, fileNameId, input.files[0].name);
+      if (inputId === 'logoFile') {
+        document.getElementById('err-logoFile').classList.remove('show');
+      }
+      updateProgress();
+    }
+  });
+
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('drag-over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('drag-over'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault();
+    drop.classList.remove('drag-over');
+    if (e.dataTransfer.files.length > 0) {
+      input.files = e.dataTransfer.files;
+      showFileSelected(selectedId, fileNameId, e.dataTransfer.files[0].name);
+      if (inputId === 'logoFile') {
+        document.getElementById('err-logoFile').classList.remove('show');
+      }
+      updateProgress();
+    }
+  });
+}
+
+function showFileSelected(selectedId, fileNameId, name) {
+  document.getElementById(selectedId).classList.add('show');
+  document.getElementById(fileNameId).textContent = name;
+}
+
+function clearFile(type) {
+  if (type === 'logo') {
+    document.getElementById('logoFile').value = '';
+    document.getElementById('logoSelected').classList.remove('show');
+  } else {
+    document.getElementById('designFile').value = '';
+    document.getElementById('designSelected').classList.remove('show');
+  }
+  updateProgress();
+}
+
+initFileInput('logoFile', 'logoDrop', 'logoSelected', 'logoFileName');
+initFileInput('designFile', 'designDrop', 'designSelected', 'designFileName');
+
+// ── PROGRESS TRACKER ─────────────────────────────
+function updateProgress() {
+  const s1 = document.getElementById('businessName').value &&
+             document.getElementById('contactName').value &&
+             document.getElementById('email').value;
+
+  const s2 = document.getElementById('lengthM').value &&
+             document.getElementById('widthM').value &&
+             toggleState.meter !== null;
+
+  const s3 = document.getElementById('turfColourValue').value;
+
+  const s4 = document.getElementById('logoFile').files.length > 0;
+
+  const steps = document.querySelectorAll('.step');
+  const completed = [s1, s2, s3, s4];
+
+  steps.forEach((step, i) => {
+    if (i < 4) {
+      step.classList.toggle('complete', !!completed[i]);
+      step.classList.toggle('active', !completed[i] && (i === 0 || !!completed[i - 1]));
+      const dot = step.querySelector('.step-dot');
+      if (completed[i]) dot.textContent = '✓';
+      else dot.textContent = i + 1;
+    } else {
+      step.classList.toggle('active', completed.every(Boolean));
+    }
+  });
+}
+
+// ── FORM VALIDATION ──────────────────────────────
+function validate() {
+  let valid = true;
+
+  // Section 1
+  const required = [
+    { id: 'businessName', errId: 'err-businessName' },
+    { id: 'contactName',  errId: 'err-contactName' },
+    { id: 'email',        errId: 'err-email' },
+  ];
+
+  required.forEach(({ id, errId }) => {
+    const el = document.getElementById(id);
+    const err = document.getElementById(errId);
+    if (!el.value.trim()) {
+      el.classList.add('invalid');
+      err.classList.add('show');
+      valid = false;
+    } else {
+      el.classList.remove('invalid');
+      err.classList.remove('show');
+    }
+  });
+
+  // Email format
+  const emailEl = document.getElementById('email');
+  if (emailEl.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)) {
+    emailEl.classList.add('invalid');
+    document.getElementById('err-email').classList.add('show');
+    valid = false;
+  }
+
+  // Section 2 - dimensions
+  ['lengthM', 'widthM'].forEach(id => {
+    const el = document.getElementById(id);
+    const err = document.getElementById('err-' + id);
+    if (!el.value || parseFloat(el.value) <= 0) {
+      el.classList.add('invalid');
+      err.classList.add('show');
+      valid = false;
+    } else {
+      el.classList.remove('invalid');
+      err.classList.remove('show');
+    }
+  });
+
+  // Toggles
+  if (toggleState.meter === null) {
+    document.getElementById('err-meter').classList.add('show');
+    valid = false;
+  }
+
+  // Turf colour
+  if (!document.getElementById('turfColourValue').value) {
+    document.getElementById('err-turfColour').classList.add('show');
+    valid = false;
+  }
+
+  // Logo file
+  if (!document.getElementById('logoFile').files.length) {
+    document.getElementById('err-logoFile').classList.add('show');
+    valid = false;
+  }
+
+  return valid;
+}
+
+// ── FORM SUBMIT ──────────────────────────────────
+document.getElementById('turf-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  if (!validate()) {
+    // Scroll to first error
+    const firstErr = document.querySelector('.invalid, .swatch-error.show, .field-error.show');
+    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+
+  // Build FormData
+  const formData = new FormData(this);
+
+  try {
+    const res = await fetch('https://formsubmit.co/sultan@compoundfitness.com.au', {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' },
+    });
+
+    if (res.ok || res.status === 200) {
+      showSuccess();
+    } else {
+      throw new Error('Submission failed');
+    }
+  } catch (err) {
+    btn.disabled = false;
+    btn.innerHTML = 'Submit Turf Design Request <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+    alert('There was a problem submitting your request. Please try again or call us on 0414 275 045.');
+  }
+});
+
+function showSuccess() {
+  document.querySelector('.main').innerHTML = `
+    <div class="success-screen show">
+      <div class="success-icon">✓</div>
+      <h2 class="success-heading">Request Received!</h2>
+      <p class="success-copy">
+        Thanks for submitting your custom turf design request.<br><br>
+        Our team will review your details and be in touch within <strong style="color:var(--off-white)">1–2 business days</strong> to confirm your design before anything goes to production.<br><br>
+        <span style="color:var(--muted2);font-size:14px;">Questions? Call us on <a href="tel:0414275045" style="color:var(--purple-l);text-decoration:none;">0414 275 045</a></span>
+      </p>
+    </div>
+  `;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Update progress all complete
+  document.querySelectorAll('.step').forEach(s => {
+    s.classList.add('complete');
+    s.classList.remove('active');
+    const dot = s.querySelector('.step-dot');
+    if (dot) dot.textContent = '✓';
+  });
+}
+
+// ── CLEAR VALIDATION ON INPUT ────────────────────
+['businessName', 'contactName', 'email', 'lengthM', 'widthM'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function() {
+    this.classList.remove('invalid');
+    const err = document.getElementById('err-' + id);
+    if (err) err.classList.remove('show');
+    updateProgress();
+  });
+});
+
+// Init progress
+updateProgress();
+
+// ════════════════════════════════════════════════
+// LIVE DESIGN PREVIEW — factory spec sheet renderer
+// ════════════════════════════════════════════════
+
+const OVERHANG_MM = 1270; // standard production overhang each side
+let previewLogoImage = null; // loaded HTMLImageElement for logo
+
+// ── Wire up inputs to re-render ──────────────────
+['lengthM', 'widthM'].forEach(id =>
+  document.getElementById(id).addEventListener('input', renderPreview)
+);
+document.getElementById('infillWording').addEventListener('input', renderPreview);
+document.getElementById('markerInterval').addEventListener('input', renderPreview);
+
+// ── Background removal ────────────────────────────
+// Samples all 4 corners, finds the dominant bg colour, makes near-matching pixels transparent.
+function stripBackground(img) {
+  const w = img.naturalWidth, h = img.naturalHeight;
+  const off = document.createElement('canvas');
+  off.width = w; off.height = h;
+  const ctx = off.getContext('2d');
+  ctx.drawImage(img, 0, 0);
+  const d = ctx.getImageData(0, 0, w, h);
+  const px = d.data;
+
+  // Sample 4 corners (1px each)
+  const corners = [
+    [px[0], px[1], px[2], px[3]],
+    [px[(w-1)*4], px[(w-1)*4+1], px[(w-1)*4+2], px[(w-1)*4+3]],
+    [px[(h-1)*w*4], px[(h-1)*w*4+1], px[(h-1)*w*4+2], px[(h-1)*w*4+3]],
+    [px[((h-1)*w+w-1)*4], px[((h-1)*w+w-1)*4+1], px[((h-1)*w+w-1)*4+2], px[((h-1)*w+w-1)*4+3]],
+  ];
+
+  // If any corner is already transparent, assume no solid bg — return as-is
+  if (corners.some(c => c[3] < 30)) return img;
+
+  // Average corner colour
+  const bgR = Math.round(corners.reduce((s,c) => s+c[0], 0) / 4);
+  const bgG = Math.round(corners.reduce((s,c) => s+c[1], 0) / 4);
+  const bgB = Math.round(corners.reduce((s,c) => s+c[2], 0) / 4);
+  const TOL = 38;
+
+  for (let i = 0; i < px.length; i += 4) {
+    const dr = px[i]-bgR, dg = px[i+1]-bgG, db = px[i+2]-bgB;
+    if (Math.sqrt(dr*dr + dg*dg + db*db) < TOL) px[i+3] = 0;
+  }
+  ctx.putImageData(d, 0, 0);
+
+  const result = new Image();
+  result.src = off.toDataURL('image/png');
+  return result; // synchronous — src is a data URL, already decoded
+}
+
+// ── Logo image loader ────────────────────────────
+document.getElementById('logoFile').addEventListener('change', function() {
+  const file = this.files[0];
+  if (!file) { previewLogoImage = null; renderPreview(); return; }
+  const ext = file.name.split('.').pop().toLowerCase();
+  if (['png','jpg','jpeg','gif','svg','webp'].includes(ext)) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        previewLogoImage = stripBackground(img);
+        // If stripBackground returned a new Image (data URL), wait for it to load
+        if (!previewLogoImage.complete) {
+          previewLogoImage.onload = renderPreview;
+        } else {
+          renderPreview();
+        }
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  } else {
+    previewLogoImage = null;
+    renderPreview();
+  }
+});
+
+// Also re-render when clear is called — patch clearFile
+const _origClearFile = clearFile;
+clearFile = function(type) {
+  _origClearFile(type);
+  if (type === 'logo') { previewLogoImage = null; renderPreview(); }
+};
+
+// Patch setToggle to also re-render
+const _origSetToggle = setToggle;
+setToggle = function(type, value) {
+  _origSetToggle(type, value);
+  renderPreview();
+};
+
+// Patch selectColour to also re-render
+selectColour = function(type, colour) {
+  // Run original logic inline (can't call _origSelect as it was hoisted)
+  const gridId = type === 'turf' ? 'turfSwatchGrid' : 'infillSwatchGrid';
+  const swatchId = type === 'turf' ? 'turfColourSwatch' : 'infillColourSwatch';
+  const textId = type === 'turf' ? 'turfColourText' : 'infillColourText';
+  const hiddenId = type === 'turf' ? 'turfColourValue' : 'infillColourValue';
+  document.querySelectorAll(`#${gridId} .swatch-item`).forEach(el => el.classList.remove('selected'));
+  document.querySelector(`#${gridId} [data-num="${colour.num}"]`).classList.add('selected');
+  document.getElementById(swatchId).style.background = colour.hex;
+  const textEl = document.getElementById(textId);
+  textEl.textContent = `Colour ${colour.num} — ${colour.name}`;
+  textEl.classList.add('chosen');
+  document.getElementById(hiddenId).value = `Colour ${colour.num}: ${colour.name} (${colour.hex})`;
+  if (type === 'turf') document.getElementById('err-turfColour').classList.remove('show');
+  updateProgress();
+  renderPreview();
+};
+
+// ── Main render function ─────────────────────────
+function renderPreview() {
+  const lengthM = parseFloat(document.getElementById('lengthM').value) || 0;
+  const widthM  = parseFloat(document.getElementById('widthM').value)  || 0;
+  const turfHex = document.getElementById('turfColourValue').value
+                    ? document.getElementById('turfColourValue').value.match(/#[0-9a-fA-F]{6}/)?.[0] || '#3a3a3a'
+                    : null;
+
+  const placeholder = document.getElementById('previewPlaceholder');
+  const wrap        = document.getElementById('previewCanvasWrap');
+  const actions     = document.getElementById('previewActions');
+
+  if (!lengthM || !widthM || !turfHex) {
+    placeholder.style.display = 'block';
+    wrap.classList.remove('show');
+    actions.style.display = 'none';
+    return;
+  }
+
+  placeholder.style.display = 'none';
+  wrap.classList.add('show');
+  actions.style.display = 'flex';
+
+  const infillHex    = document.getElementById('infillColourValue').value
+                         ? document.getElementById('infillColourValue').value.match(/#[0-9a-fA-F]{6}/)?.[0] || '#ffffff'
+                         : '#ffffff';
+  const wording      = document.getElementById('infillWording').value.trim().toUpperCase();
+  const metreMarkers = toggleState.meter === 'yes';
+
+  const lengthMm = lengthM * 1000;
+  const widthMm  = widthM  * 1000;
+  const totalMm  = lengthMm + 2 * OVERHANG_MM;
+
+  // ── Canvas sizing ────────────────────────────
+  const canvas = document.getElementById('turfCanvas');
+  const dpr    = window.devicePixelRatio || 1;
+  const ML = 68, MR = 24, MT = 62, MB = 52; // margins in logical px
+
+  const containerW   = Math.min(wrap.parentElement.clientWidth - 32, 820);
+  const drawW        = containerW - ML - MR;
+  const scale        = drawW / totalMm;          // px per mm
+  const turfH        = widthMm * scale;
+  const totalH       = turfH + MT + MB;
+
+  canvas.style.width  = containerW + 'px';
+  canvas.style.height = totalH + 'px';
+  canvas.width        = Math.round(containerW * dpr);
+  canvas.height       = Math.round(totalH * dpr);
+
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.scale(dpr, dpr);
+
+  // Derived coordinates
+  const ovX  = ML;                                    // left overhang x
+  const tuX  = ML + OVERHANG_MM * scale;              // active turf x
+  const tuW  = lengthMm * scale;                      // active turf width
+  const tY   = MT;                                    // turf top y
+  const ovW  = OVERHANG_MM * scale;                   // overhang width
+
+  // ── 1. White background ──────────────────────
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, containerW, totalH);
+
+  // ── 2. Overhangs (light) ─────────────────────
+  ctx.fillStyle = '#e8e8e8';
+  ctx.fillRect(ovX, tY, ovW, turfH);
+  ctx.fillRect(ovX + ovW + tuW, tY, ovW, turfH);
+
+  // ── 3. Active turf area ──────────────────────
+  ctx.fillStyle = turfHex;
+  ctx.fillRect(tuX, tY, tuW, turfH);
+
+  // slight texture overlay
+  ctx.fillStyle = 'rgba(0,0,0,0.06)';
+  for (let i = 0; i < tuW; i += 4) {
+    ctx.fillRect(tuX + i, tY, 2, turfH);
+  }
+
+  // ── 4. Turf border ───────────────────────────
+  ctx.strokeStyle = '#aaaaaa';
+  ctx.lineWidth   = 0.5;
+  ctx.strokeRect(ovX, tY, ovW + tuW + ovW, turfH);
+
+  // overhang separators
+  ctx.setLineDash([3, 3]);
+  ctx.strokeStyle = '#cccccc';
+  ctx.lineWidth = 0.5;
+  ctx.beginPath();
+  ctx.moveTo(tuX, tY); ctx.lineTo(tuX, tY + turfH);
+  ctx.moveTo(tuX + tuW, tY); ctx.lineTo(tuX + tuW, tY + turfH);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // ── 5. Metre markers ─────────────────────────
+  if (metreMarkers && lengthMm >= 1000) {
+    const intervalMm = Math.max(500, (parseFloat(document.getElementById('markerInterval').value) || 1) * 1000);
+    const showNums   = markerStyle === 'numbers';
+    const numMarkers = Math.floor(lengthMm / intervalMm);
+    const mFontSize  = Math.max(7, Math.min(turfH * 0.16, 13));
+    const tickH      = turfH * 0.13;
+
+    ctx.strokeStyle  = infillHex;
+    ctx.fillStyle    = infillHex;
+    ctx.lineWidth    = 1.2;
+    ctx.font         = `700 ${mFontSize}px Arial, sans-serif`;
+    ctx.textAlign    = 'center';
+    ctx.textBaseline = 'middle';
+
+    for (let i = 1; i <= numMarkers; i++) {
+      const rawX = tuX + i * intervalMm * scale;
+      const mx   = (i === numMarkers && rawX > tuX + tuW - 2)
+                     ? tuX + tuW - mFontSize * 0.6
+                     : rawX;
+
+      // Top tick
+      ctx.beginPath();
+      ctx.moveTo(mx, tY + turfH * 0.02);
+      ctx.lineTo(mx, tY + tickH);
+      ctx.stroke();
+
+      // Bottom tick
+      ctx.beginPath();
+      ctx.moveTo(mx, tY + turfH - turfH * 0.02);
+      ctx.lineTo(mx, tY + turfH - tickH);
+      ctx.stroke();
+
+      if (showNums) {
+        const label = intervalMm >= 1000 ? i * (intervalMm / 1000) : (i * intervalMm / 1000).toFixed(1);
+        ctx.fillText(label, mx, tY + tickH + mFontSize);
+        ctx.fillText(label, mx, tY + turfH - tickH - mFontSize);
+      }
+    }
+  }
+
+  // ── 6. Logo image or wording ─────────────────
+  // Vertical bounds tighten when metre markers are present
+  const hasMarkers  = metreMarkers && lengthMm >= 1000 && markerStyle === 'numbers';
+  const logoMarginV = hasMarkers ? turfH * 0.28 : turfH * 0.1;
+  const logoAreaH   = turfH - logoMarginV * 2;
+  const logoAreaW   = tuW  * 0.82;
+
+  if (previewLogoImage) {
+    const ar  = previewLogoImage.naturalWidth / previewLogoImage.naturalHeight;
+    let iW = logoAreaW, iH = logoAreaW / ar;
+    if (iH > logoAreaH) { iH = logoAreaH; iW = logoAreaH * ar; }
+    ctx.drawImage(previewLogoImage,
+      tuX + (tuW - iW) / 2,
+      tY  + logoMarginV + (logoAreaH - iH) / 2,
+      iW, iH);
+  } else if (wording) {
+    const maxFont = Math.min(logoAreaH * 0.72, tuW * 0.13);
+    let fontSize  = maxFont;
+    ctx.font = `900 ${fontSize}px Arial Black, Arial, sans-serif`;
+    while (ctx.measureText(wording).width > logoAreaW && fontSize > 8) {
+      fontSize -= 1;
+      ctx.font = `900 ${fontSize}px Arial Black, Arial, sans-serif`;
+    }
+    ctx.fillStyle    = infillHex;
+    ctx.textAlign    = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(wording, tuX + tuW / 2, tY + turfH / 2);
+  } else {
+    // placeholder
+    const bW = Math.min(logoAreaW * 0.5, 140), bH = logoAreaH * 0.7;
+    const bX = tuX + (tuW - bW) / 2, bY = tY + logoMarginV + (logoAreaH - bH) / 2;
+    ctx.strokeStyle = `${infillHex}44`;
+    ctx.setLineDash([4, 4]);
+    ctx.lineWidth = 1;
+    ctx.strokeRect(bX, bY, bW, bH);
+    ctx.setLineDash([]);
+    ctx.fillStyle = `${infillHex}44`;
+    ctx.font = `600 ${Math.max(8, bH * 0.22)}px Arial, sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('LOGO', bX + bW / 2, bY + bH / 2);
+  }
+
+  // ── 7. Dimension lines (red) ─────────────────
+  const dimY   = tY - 10;          // line just above turf
+  const botY   = tY + turfH + 10;  // line just below turf
+  const leftX  = ovX - 10;         // line to left of turf
+
+  drawDimLine(ctx, '#e82020', ovX, dimY, tuX, dimY, `${OVERHANG_MM}`, 'above');
+  drawDimLine(ctx, '#e82020', tuX, dimY, tuX + tuW, dimY, `${Math.round(lengthMm)}`, 'above');
+  drawDimLine(ctx, '#e82020', tuX + tuW, dimY, tuX + tuW + ovW, dimY, `${OVERHANG_MM}`, 'above');
+  drawDimLine(ctx, '#e82020', ovX, botY, ovX + ovW + tuW + ovW, botY, `${Math.round(totalMm)}`, 'below');
+  drawDimLine(ctx, '#e82020', leftX, tY, leftX, tY + turfH, `${Math.round(widthMm)}`, 'left');
+
+  // ── 8. Reference label ───────────────────────
+  const bizName = document.getElementById('businessName').value.trim().toUpperCase() || 'CUSTOMER PREVIEW';
+  ctx.fillStyle    = '#222222';
+  ctx.font         = `700 10px Arial, sans-serif`;
+  ctx.textAlign    = 'left';
+  ctx.textBaseline = 'top';
+  ctx.fillText(`COMPOUND FITNESS  ·  CUSTOM TURF LAYOUT  ·  ${bizName}`, 4, 3);
+  ctx.fillStyle = '#888888';
+  ctx.font      = '10px Arial, sans-serif';
+  ctx.fillText(`${lengthM}m × ${widthM}m  ·  INDICATIVE ONLY`, 4, 15);
+}
+
+// ── Dimension line helper ────────────────────────
+function drawDimLine(ctx, colour, x1, y1, x2, y2, label, side) {
+  const isVert    = x1 === x2;
+  const AH        = 5;   // arrowhead size
+  const EXT       = 6;   // extension line length
+  const FONT_SIZE = 9;
+
+  ctx.save();
+  ctx.strokeStyle = colour;
+  ctx.fillStyle   = colour;
+  ctx.lineWidth   = 0.8;
+
+  if (!isVert) {
+    // Horizontal dimension line
+    const eY1 = Math.min(y1, y2) - EXT, eY2 = Math.max(y1, y2) + EXT;
+
+    // Extension lines at x1 and x2
+    ctx.beginPath();
+    ctx.moveTo(x1, eY1); ctx.lineTo(x1, eY2);
+    ctx.moveTo(x2, eY1); ctx.lineTo(x2, eY2);
+    ctx.stroke();
+
+    // Main horizontal line
+    ctx.beginPath();
+    ctx.moveTo(x1, y1); ctx.lineTo(x2, y2);
+    ctx.stroke();
+
+    // Arrowheads
+    _arrow(ctx, x1, y1, x1 + AH, y1, AH);
+    _arrow(ctx, x2, y2, x2 - AH, y2, AH);
+
+    // Label
+    const mid   = (x1 + x2) / 2;
+    ctx.font    = `700 ${FONT_SIZE}px Arial, sans-serif`;
+    ctx.textAlign    = 'center';
+    ctx.textBaseline = side === 'above' ? 'bottom' : 'top';
+    ctx.fillText(label, mid, side === 'above' ? y1 - 3 : y1 + 3);
+  } else {
+    // Vertical dimension line
+    const eX1 = Math.min(x1, x2) - EXT, eX2 = Math.max(x1, x2) + EXT;
+
+    ctx.beginPath();
+    ctx.moveTo(eX1, y1); ctx.lineTo(eX2, y1);
+    ctx.moveTo(eX1, y2); ctx.lineTo(eX2, y2);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(x1, y1); ctx.lineTo(x2, y2);
+    ctx.stroke();
+
+    _arrow(ctx, x1, y1, x1, y1 + AH, AH);
+    _arrow(ctx, x2, y2, x2, y2 - AH, AH);
+
+    const midY = (y1 + y2) / 2;
+    ctx.save();
+    ctx.translate(x1 - 10, midY);
+    ctx.rotate(-Math.PI / 2);
+    ctx.font = `700 ${FONT_SIZE}px Arial, sans-serif`;
+    ctx.textAlign    = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText(label, 0, 0);
+    ctx.restore();
+  }
+  ctx.restore();
+}
+
+function _arrow(ctx, fromX, fromY, toX, toY, size) {
+  const angle = Math.atan2(toY - fromY, toX - fromX);
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(toX, toY);
+  ctx.lineTo(toX - size * Math.cos(angle - 0.4), toY - size * Math.sin(angle - 0.4));
+  ctx.lineTo(toX - size * Math.cos(angle + 0.4), toY - size * Math.sin(angle + 0.4));
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+}
+
+// ── Download preview as PNG ──────────────────────
+function downloadPreview() {
+  const canvas = document.getElementById('turfCanvas');
+  const link   = document.createElement('a');
+  const biz    = (document.getElementById('businessName').value.trim() || 'turf').replace(/[^a-z0-9]/gi, '-').toLowerCase();
+  link.download = `compound-turf-preview-${biz}.png`;
+  link.href     = canvas.toDataURL('image/png');
+  link.click();
+}
+</script>
+
+</body>
+</html>
