@@ -1131,30 +1131,6 @@ form#turf-form { display: contents; }
         </div>
       </div>
 
-      <hr class="section-divider">
-
-      <!-- CUSTOM DESIGN FILE -->
-      <div class="fgroup full" style="margin-bottom:0;">
-        <label>Do you have a custom design / layout file?</label>
-        <div class="toggle-group" style="margin-bottom:0;">
-          <button type="button" class="toggle-btn" id="designYes" onclick="setToggle('design','yes')">Yes — I'll upload it</button>
-          <button type="button" class="toggle-btn" id="designNo" onclick="setToggle('design','no')">No — use my logo only</button>
-        </div>
-        <input type="hidden" id="designFileValue" name="Custom Design Attached">
-        <div class="conditional-upload" id="designUploadArea">
-          <div class="file-drop" id="designDrop" style="margin-top:12px;">
-            <input type="file" id="designFile" name="Custom Design File" accept=".ai,.eps,.svg,.pdf,.png,.jpg,.jpeg,.psd">
-            <div class="file-drop-icon">🎨</div>
-            <div class="file-drop-title">Drop your design file here, or click to browse</div>
-            <div class="file-drop-sub">AI, EPS, SVG, PSD, PDF accepted</div>
-          </div>
-          <div class="file-selected" id="designSelected">
-            <span>✓</span>
-            <span class="file-selected-name" id="designFileName"></span>
-            <button type="button" class="file-clear" onclick="clearFile('design')">✕</button>
-          </div>
-        </div>
-      </div>
     </div>
 
     <!-- ── DESIGN PREVIEW ──────────────────────── -->
@@ -1377,7 +1353,7 @@ document.getElementById('lengthM').addEventListener('input', calcArea);
 document.getElementById('widthM').addEventListener('input', calcArea);
 
 // ── YES/NO TOGGLES ───────────────────────────────
-const toggleState = { meter: null, design: null };
+const toggleState = { meter: null };
 let markerStyle = 'numbers'; // 'numbers' | 'ticks'
 
 function setToggle(type, value) {
@@ -1389,15 +1365,6 @@ function setToggle(type, value) {
     document.getElementById('meterMarkersValue').value = value === 'yes' ? 'Yes' : 'No';
     document.getElementById('err-meter').classList.remove('show');
     document.getElementById('meterOptions').style.display = value === 'yes' ? 'block' : 'none';
-  }
-
-  if (type === 'design') {
-    document.getElementById('designYes').className = 'toggle-btn' + (value === 'yes' ? ' active-yes' : '');
-    document.getElementById('designNo').className = 'toggle-btn' + (value === 'no' ? ' active-no' : '');
-    document.getElementById('designFileValue').value = value === 'yes' ? 'Yes' : 'No';
-    const uploadArea = document.getElementById('designUploadArea');
-    uploadArea.classList.toggle('show', value === 'yes');
-    if (value === 'no') clearFile('design');
   }
 
   updateProgress();
@@ -1452,14 +1419,11 @@ function clearFile(type) {
     document.getElementById('logoFile').value = '';
     document.getElementById('logoSelected').classList.remove('show');
   } else {
-    document.getElementById('designFile').value = '';
-    document.getElementById('designSelected').classList.remove('show');
   }
   updateProgress();
 }
 
 initFileInput('logoFile', 'logoDrop', 'logoSelected', 'logoFileName');
-initFileInput('designFile', 'designDrop', 'designSelected', 'designFileName');
 
 // ── PROGRESS TRACKER ─────────────────────────────
 function updateProgress() {
@@ -1577,7 +1541,7 @@ document.getElementById('turf-form').addEventListener('submit', async function(e
   const formData = new FormData(this);
 
   try {
-    const res = await fetch('https://formsubmit.co/sultan@compoundfitness.com.au', {
+    const res = await fetch('https://formsubmit.co/sales@compoundfitness.com.au', {
       method: 'POST',
       body: formData,
       headers: { 'Accept': 'application/json' },
